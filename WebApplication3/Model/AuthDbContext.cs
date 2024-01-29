@@ -6,7 +6,7 @@ namespace WebApplication3.Model
 
 
 
-    public class AuthDbContext : IdentityDbContext
+    public class AuthDbContext : IdentityDbContext<ApplicationUser>
     {
         private readonly IConfiguration _configuration;
         //public AuthDbContext(DbContextOptions<AuthDbContext> options):base(options){ }

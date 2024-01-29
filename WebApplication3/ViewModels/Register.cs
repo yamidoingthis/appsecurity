@@ -27,8 +27,9 @@ namespace WebApplication3.ViewModels
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,}$", ErrorMessage = "Password must be at least 12 characters and include at least one lowercase letter, one uppercase letter, one digit, and one special character.")]
         public string Password { get; set; }
 
         [Required]
@@ -37,7 +38,7 @@ namespace WebApplication3.ViewModels
         public string ConfirmPassword { get; set; }
 
         [DataType(DataType.Upload)]
-        public IFormFile Photo { get; set; }
+        public IFormFile? Photo { get; set; }
 
         [Required]
         public string AboutMe { get; set; }

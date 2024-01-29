@@ -51,19 +51,19 @@
 
                 <div class="mb-3">
                     <label class="form-label" asp-for="RModel.Password">Password</label>
-                    <input type="password" asp-for="RModel.Password" class="form-control" />
+                    <input type="text" asp-for="RModel.Password" class="form-control" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()%&]).{12,}$" title="Password must be at least 12 characters and include at least one lowercase letter, one uppercase letter, one digit, and one special character." />
                     <span asp-validation-for="RModel.Password" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" asp-for="RModel.ConfirmPassword">Confirm Password</label>
-                    <input type="password" asp-for="RModel.ConfirmPassword" class="form-control" />
+                    <input type="text" asp-for="RModel.ConfirmPassword" class="form-control" />
                     <span asp-validation-for="RModel.ConfirmPassword" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" asp-for="RModel.Photo">Photo (.JPG only)</label>
-                    <input type="file" asp-for="RModel.Photo" class="form-control" />
+                    <input type="file" asp-for="RModel.Photo" class="form-control" accept=".jpg" />
                     <span asp-validation-for="RModel.Photo" class="text-danger"></span>
                 </div>
 
