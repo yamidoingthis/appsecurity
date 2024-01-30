@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Web;
 using WebApplication3.Model;
 using WebApplication3.ViewModels;
 
 namespace WebApplication3.Pages
 {
+    [ValidateAntiForgeryToken]
     public class RegisterModel : PageModel
     {
 
@@ -46,7 +48,7 @@ namespace WebApplication3.Pages
                     Gender = RModel.Gender,
                     MobileNo = RModel.MobileNo,
                     DeliveryAddress = RModel.DeliveryAddress,
-                    AboutMe = RModel.AboutMe
+                    AboutMe = HttpUtility.HtmlEncode(RModel.AboutMe)
                 };
 
                 // Set the password using UserManager
@@ -54,8 +56,7 @@ namespace WebApplication3.Pages
 
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, false);
-                    return RedirectToPage("Index");
+                    return RedirectToPage("Login");
                 }
 
                 foreach (var error in result.Errors)

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebApplication3.Pages
 {
-    public class PrivacyModel : PageModel
+	[Authorize]
+	public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
 

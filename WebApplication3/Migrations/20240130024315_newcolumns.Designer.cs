@@ -12,8 +12,8 @@ using WebApplication3.Model;
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20240129091101_columns")]
-    partial class columns
+    [Migration("20240130024315_newcolumns")]
+    partial class newcolumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
