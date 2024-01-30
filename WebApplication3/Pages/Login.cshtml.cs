@@ -14,14 +14,16 @@ namespace WebApplication3.Pages
         [BindProperty]
         public Login LModel { get; set; }
         private readonly IHttpContextAccessor contxt;
+        private readonly AuthDbContext authDbContext;
         private UserManager<ApplicationUser> userManager { get; }
 
         private readonly SignInManager<ApplicationUser> signInManager;
-        public LoginModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, AuthDbContext authDbContext)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             contxt = httpContextAccessor;
+            this.authDbContext = authDbContext;
         }
         public void OnGet()
         {
@@ -38,6 +40,9 @@ namespace WebApplication3.Pages
                 {
                     var user = await userManager.FindByEmailAsync(LModel.Email);
                     var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+                   
+
                     return RedirectToPage("Index");
                 }
                 ModelState.AddModelError("", "Username or Password incorrect");

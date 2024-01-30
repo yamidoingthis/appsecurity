@@ -10,7 +10,9 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache(); //save session in memory
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(30);
+    options.IdleTimeout = TimeSpan.FromSeconds(5);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -24,7 +26,9 @@ builder.Services.AddDataProtection();
 
 builder.Services.ConfigureApplicationCookie(Config =>
 {
-	Config.LoginPath = "/Login";
+    Config.LoginPath = "/Login";
+    Config.ExpireTimeSpan = TimeSpan.FromSeconds(5);
+	
 });
 
 

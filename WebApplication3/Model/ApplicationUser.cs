@@ -12,5 +12,8 @@ namespace WebApplication3.Model
         public string DeliveryAddress { get; set; }
         public string Email { get; set; }
         public string AboutMe { get; set; }
+       
+        public string? AuthToken { get; set; }
+      
     }
 }
