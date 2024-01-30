@@ -1,6 +1,7 @@
 ﻿@page
 @model WebApplication3.Pages.LoginModel
 @{
+	<script src="https://www.google.com/recaptcha/api.js?render=6LddrmApAAAAAO5CL-UwHaOUMGQ7oqFWDGo3-oWs"></script>
 	<div class="container mt-5">
 
 		<div class="row justify-content-center align-items-center">
@@ -27,6 +28,7 @@
 						<button type="submit" class="btn btn-primary">Login</button>
 					</div>
 				</form>
+				<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" />
 			</div>
 		</div>
 	</div>

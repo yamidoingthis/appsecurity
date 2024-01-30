@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 using WebApplication3.Model;
 using WebApplication3.ViewModels;
 
@@ -30,12 +31,13 @@ namespace WebApplication3.Pages
         {
             if (ModelState.IsValid)
             {
-                var dataProtectionProvider = DataProtectionProvider.Create("EncryptData");
-                var protector = dataProtectionProvider.CreateProtector("MySecretKey");
+                
                 var identityResult = await signInManager.PasswordSignInAsync(LModel.Email, LModel.Password, false,
                  lockoutOnFailure: true);
                 if (identityResult.Succeeded)
                 {
+                    var user = await userManager.FindByEmailAsync(LModel.Email);
+                    var userEmail = User.FindFirstValue(ClaimTypes.Email);
                     return RedirectToPage("Index");
                 }
                 ModelState.AddModelError("", "Username or Password incorrect");

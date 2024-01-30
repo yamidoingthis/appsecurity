@@ -8,5 +8,12 @@
 <div asp-validation-summary="All" class="text-danger"></div>
 <div class="text-center">
     <h1 class="display-4">Hi, welcome to home page</h1>
+    <p>Full Name: @Model.CurrentUser.FullName</p>
+    <p>Email: @Model.CurrentUser.Email</p>
+    <p>Gender: @Model.CurrentUser.Gender</p>
+    <p>Credit Card: @Model.DecryptedCreditCard</p>
+    <p>Delivery Address: @Model.CurrentUser.DeliveryAddress</p>
+    <dd>About me: @Model.CurrentUser.AboutMe</dd>
+    
     
 </div>
