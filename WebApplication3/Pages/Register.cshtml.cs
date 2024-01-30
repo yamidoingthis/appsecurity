@@ -41,15 +41,15 @@ namespace WebApplication3.Pages
 
                 var user = new ApplicationUser()
                 {
-                    UserName = RModel.Email,
-                    Email = RModel.Email,
-                    FullName = RModel.FullName,
-                    CreditCardNo = protector.Protect(RModel.CreditCardNo),
-                    Gender = RModel.Gender,
-                    MobileNo = RModel.MobileNo,
-                    DeliveryAddress = RModel.DeliveryAddress,
-                    AboutMe = HttpUtility.HtmlEncode(RModel.AboutMe)
-                };
+					UserName = HttpUtility.HtmlEncode(RModel.Email),
+					Email = HttpUtility.HtmlEncode(RModel.Email),
+					FullName = HttpUtility.HtmlEncode(RModel.FullName),
+					CreditCardNo = protector.Protect(HttpUtility.HtmlEncode(RModel.CreditCardNo)),
+					Gender = HttpUtility.HtmlEncode(RModel.Gender),
+					MobileNo = HttpUtility.HtmlEncode(RModel.MobileNo),
+					DeliveryAddress = HttpUtility.HtmlEncode(RModel.DeliveryAddress),
+					AboutMe = HttpUtility.HtmlEncode(RModel.AboutMe)
+				};
 
                 // Set the password using UserManager
                 var result = await userManager.CreateAsync(user, RModel.Password);

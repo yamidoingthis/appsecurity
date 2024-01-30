@@ -1,5 +1,6 @@
 ﻿
 @page
+@using System.Web
 @model WebApplication3.Pages.RegisterModel
 @{
 }
@@ -74,7 +75,7 @@
 
                 <div class="mb-3">
                     <label class="form-label" asp-for="RModel.AboutMe">About Me</label>
-                    <textarea asp-for="RModel.AboutMe" class="form-control"></textarea>
+                    <textarea asp-for="RModel.AboutMe" class="form-control">@Html.Raw(HttpUtility.HtmlEncode(Model.RModel.AboutMe))</textarea>
                     <span asp-validation-for="RModel.AboutMe" class="text-danger"></span>
                 </div>
 

@@ -8,16 +8,19 @@ namespace WebApplication3.ViewModels
     {
 
         [Required]
+        [RegularExpression("^[a-zA-Z ]+$", ErrorMessage = "Full Name cannot contain numbers or special characters.")]
         public string FullName { get; set; }
 
         [Required]
-        
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Credit Card No can only contain numbers.")]
         public string CreditCardNo { get; set; }
 
         [Required]
+        [RegularExpression("^[a-zA-Z ]+$", ErrorMessage = "Gender cannot contain numbers or special characters")]
         public string Gender { get; set; }
 
         [Required]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Mobile Number can only contain numbers.")]
         public string MobileNo { get; set; }
 
         [Required]
