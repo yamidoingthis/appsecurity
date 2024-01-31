@@ -14,15 +14,17 @@ namespace WebApplication3.Pages
     {
         private readonly UserManager<ApplicationUser> _userManager; 
         private readonly AuthDbContext _authDbContext;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         public string DecryptedCreditCard { get; private set; }
         private readonly IHttpContextAccessor _contxt; 
 
  
-        public IndexModel(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, AuthDbContext authDbContext)
+        public IndexModel(UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, AuthDbContext authDbContext, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _contxt = httpContextAccessor;
             _authDbContext = authDbContext;
+            _signInManager = signInManager;
         }
 
         public string UserId { get; set; }
@@ -35,6 +37,7 @@ namespace WebApplication3.Pages
            
             var user = await _userManager.GetUserAsync(User);
             var session = _contxt.HttpContext.Session;
+            var cookieAuth = _contxt.HttpContext.Request.Cookies["AuthToken"];
 
             UserId = session.GetString("UserId");
             AuthToken = session.GetString("AuthToken");
@@ -46,6 +49,18 @@ namespace WebApplication3.Pages
 
            
             CurrentUser = user;
+            if (CurrentUser != null || CurrentUser.AuthToken != null || cookieAuth != null)
+{
+                if (cookieAuth != CurrentUser.AuthToken)
+
+                {
+                    user.AuthToken = null;
+                    await _userManager.UpdateAsync(user);
+                    await _signInManager.SignOutAsync();
+
+                    return RedirectToPage("/Login");
+                }
+            }
 
             _contxt.HttpContext.Session.SetString("UserId", user.Id);
             _contxt.HttpContext.Session.SetString("AuthToken", "YourAuthToken");
@@ -59,10 +74,10 @@ namespace WebApplication3.Pages
             DecryptedCreditCard = protector.Unprotect(CurrentUser.CreditCardNo);
 
             var log = new AuditLog
-            {
-                Id = Guid.NewGuid().ToString(),
+            {    
                 UserId = user.Id,
-                Action = "Logged In"
+                Action = "Logged In",
+                Time=DateTime.Now,
             };
             _authDbContext.AuditLogTable.Add(log);
             _authDbContext.SaveChanges();

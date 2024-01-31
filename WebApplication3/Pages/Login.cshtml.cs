@@ -41,9 +41,11 @@ namespace WebApplication3.Pages
                     var user = await userManager.FindByEmailAsync(LModel.Email);
                     var userEmail = User.FindFirstValue(ClaimTypes.Email);
 
-                   
+                    
 
-                    return RedirectToPage("Index");
+                        return RedirectToPage("Index");
+                    
+                   
                 }
                 ModelState.AddModelError("", "Username or Password incorrect");
                 if (identityResult.IsLockedOut)
