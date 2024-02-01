@@ -1,14 +1,20 @@
 ﻿@page
 @model WebApplication3.Pages.LoginModel
 @{
-	<script src="https://www.google.com/recaptcha/api.js?render=6LddrmApAAAAAO5CL-UwHaOUMGQ7oqFWDGo3-oWs"></script>
+	
 	<div class="container mt-5">
+		<script src="https://www.google.com/recaptcha/api.js"></script>
+		<script>
+			function onSubmit(token) {
+				document.getElementById("demo-form").submit();
+			}
+		</script>
 
 		<div class="row justify-content-center align-items-center">
 			<div class="col-sm-12 col-md-12 col-lg-4">
 				<h1 class="mb-3">Login </h1>
 
-				<form method="post" asp-antiforgery="true">
+				<form method="post" asp-antiforgery="true" id="demo-form">
 					<div asp-validation-summary="All" class="text-danger"></div>
 					<div class="mb-3">
 						<label class="form-label" asp-for="LModel.Email">Email Address</label>
@@ -24,11 +30,16 @@
 
 					
 					<div class="mb-3">
-						<button type="submit" class="btn btn-primary">Login</button>
+						<button class="g-recaptcha btn btn-primary"
+								data-sitekey="6LddrmApAAAAAO5CL-UwHaOUMGQ7oqFWDGo3-oWs"
+								data-callback='onSubmit'
+								data-action='submit'>
+							Login
+						</button>
 					</div>
 				</form>
-				<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" />
 			</div>
 		</div>
 	</div>
+
 }

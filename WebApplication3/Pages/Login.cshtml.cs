@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net;
 using System.Security.Claims;
+using System.Text.Json;
 using WebApplication3.Model;
 using WebApplication3.ViewModels;
 
@@ -28,13 +30,47 @@ namespace WebApplication3.Pages
         public void OnGet()
         {
         }
+        public class CaptchaResponse
+        {
+            public bool success { get; set; }
+        }
+		public bool CheckCaptcha()
+		{
+			string Response = Request.Form["g-recaptcha-response"];
+			bool valid = false;
 
-        public async Task<IActionResult> OnPostAsync()
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret=6LddrmApAAAAAERo1EMFFTuvI895ZLPTGvqgjWAP&response=" + Response);
+			try
+			{
+				using (WebResponse wResponse = request.GetResponse())
+				{
+					using (StreamReader readStream = new StreamReader(wResponse.GetResponseStream()))
+					{
+						string jsonResponse = readStream.ReadToEnd();
+						var data = JsonSerializer.Deserialize<CaptchaResponse>(jsonResponse);
+						valid = Convert.ToBoolean(data.success);
+					}
+				}
+				return valid;
+			}
+			catch (WebException ex)
+			{
+				throw ex;
+			}
+
+		}
+
+
+	public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
-                
-                var identityResult = await signInManager.PasswordSignInAsync(LModel.Email, LModel.Password, false,
+				if (!CheckCaptcha())
+				{
+					ModelState.AddModelError("", "Captcha is not valid");
+					return Page();
+				}
+				var identityResult = await signInManager.PasswordSignInAsync(LModel.Email, LModel.Password, false,
                  lockoutOnFailure: true);
                 if (identityResult.Succeeded)
                 {
